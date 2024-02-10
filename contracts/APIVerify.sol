@@ -5,27 +5,27 @@ import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/libraries/FunctionsRequest.sol";
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+interface IRegistry {
+    function fallBackCredStationAdded(string memory _result) external;
+}
 
-contract APIVerify is FunctionsClient, ConfirmedOwner, ERC721URIStorage {
+contract APIVerify is FunctionsClient, ConfirmedOwner {
 
-     address registryAddress;
+    IRegistry registry;
 
-     constructor() FunctionsClient(router) ConfirmedOwner(msg.sender) ERC721("Poster Ad", "PAd") {}
+    constructor(address _registry) FunctionsClient(router) ConfirmedOwner(msg.sender) {
+        registry = IRegistry(_registry);
+
+    }
 
     using FunctionsRequest for FunctionsRequest.Request;
-    uint256 public _tokenId = 0;
-
-    event ModelMinted(
-        uint256 indexed tokenId
-    );
 
     bytes32 public s_lastRequestId;
     bytes public s_lastResponse;
     bytes public s_lastError;
 
-    address public s_lastMint_address;
     bool public isFullfilled;
+    string public result;
 
     error UnexpectedRequestID(bytes32 requestId);
 
@@ -36,12 +36,9 @@ contract APIVerify is FunctionsClient, ConfirmedOwner, ERC721URIStorage {
         0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000;
 
     uint32 gasLimit = 300000;
-    string public result;
 
-    string AdImg =
-        "const prompt = args[0];"
-        "const modelImage = args[1];"
-        "const productImage = args[2];"
+    string APICall =
+        "const enteredCode = args[0];"
         "const apiResponse = await Functions.makeHttpRequest({"
         // "url: `https://adgen.pythonanywhere.com/generate-ad-poster/${prompt}/${modelImage}/${productImage}`"
         "});"
@@ -49,23 +46,24 @@ contract APIVerify is FunctionsClient, ConfirmedOwner, ERC721URIStorage {
         "throw Error('Request failed');"
         "}"
         "const { data } = apiResponse;"
-        "return Functions.encodeString(data[0].url);";
+        "return Functions.encodeString(data[0].result);";
 
     function callVerifier(
-        string memory _code
-    ) public returns (uint256) {
+        string[] calldata args
+    ) public {
+        // string[] calldata args = [_code];
+
         isFullfilled = false;
         FunctionsRequest.Request memory req;
-        req.initializeRequestForInlineJavaScript(AdImg);
+        req.initializeRequestForInlineJavaScript(APICall);
         
-        // if (args.length > 0) req.setArgs(args);
+        if (args.length > 0) req.setArgs(args);
         s_lastRequestId = _sendRequest(
             req.encodeCBOR(),
             subscriptionId,
             gasLimit,
             donID
         );
-        return _tokenId;
     }
 
     function fulfillRequest(
@@ -77,15 +75,11 @@ contract APIVerify is FunctionsClient, ConfirmedOwner, ERC721URIStorage {
             revert UnexpectedRequestID(requestId);
         }
         result = string(response);
-        ++_tokenId;
-        string memory tokenURI = result;
-        uint256 newTokenId = _tokenId;
-        _mint(s_lastMint_address, newTokenId);
-        _setTokenURI(newTokenId, tokenURI);
 
         s_lastResponse = response;
         s_lastError = err;
         isFullfilled = true;
-        emit ModelMinted(_tokenId);
+
+        registry.fallBackCredStationAdded(result);
     }
 }
