@@ -38,7 +38,7 @@ export async function getRegistryContract(providerOrSigner) {
 export async function getBWContractAddress() {
     const address = await getUserAddress(); //fetch user address
     const contract = await getRegistryContract();
-    const id = await contract.hostAddressToContractId(address.toString());
+    const id = await contract.userAddressToContractId(address.toString());
     const contractAddress = await contract.contracts(id);
     return contractAddress;
 }

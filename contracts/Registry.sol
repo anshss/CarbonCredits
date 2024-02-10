@@ -51,13 +51,13 @@ contract Registry {
     }
 
     Order[] public sellArray;
-    Lease[] public leaseArray;
     Bid[] public bidsArray;
+    Lease[] public leaseArray;
     GreenWim[] public contracts;
 
     mapping(address => uint) public balances;
     mapping(address => uint) public collateralBalances;
-    mapping(address => uint) public hostAddressToContractId;
+    mapping(address => uint) public userAddressToContractId;
 
     event LeaseCreated(
         address indexed lessor,
@@ -76,10 +76,11 @@ contract Registry {
         apiVerify.callVerifier(payloadCode);
     }
 
-    function fallBackCredStationAdded(string memory _result) private {
+    function fallBackCredStationAdded(address _caller, string memory _result) private {
         if (keccak256(abi.encodePacked(_result)) == keccak256(abi.encodePacked("true"))) {
             GreenWim t = new GreenWim();
             contracts.push(t);
+            userAddressToContractId[_caller] = contracts.length - 1;
         }
     }
 
