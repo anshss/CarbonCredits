@@ -58,6 +58,7 @@ contract Registry {
     mapping(address => uint) public balances;
     mapping(address => uint) public collateralBalances;
     mapping(address => uint) public userAddressToContractId;
+    mapping (address => bool) public hasDeployed;
 
     event LeaseCreated(
         address indexed lessor,
@@ -77,10 +78,12 @@ contract Registry {
     }
 
     function fallBackCredStationAdded(address _caller, string memory _result) private {
+        require(hasDeployed[msg.sender] != true);
         if (keccak256(abi.encodePacked(_result)) == keccak256(abi.encodePacked("true"))) {
             GreenWim t = new GreenWim();
             contracts.push(t);
             userAddressToContractId[_caller] = contracts.length - 1;
+            hasDeployed[msg.sender] = true;
         }
     }
 

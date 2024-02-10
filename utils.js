@@ -131,6 +131,13 @@ export async function unstakeCreds() {
 
 // fetching Registry
 
+export async function hasDeployed() {
+    const contract = await getRegistryContract(true);
+    const address = await getUserAddress();
+    const data = await contract.hasDeployed(address.toString());
+    return data;
+}
+
 export async function fetchOrders() {}
 
 export async function fetchBids() {}
