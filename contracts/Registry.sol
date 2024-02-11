@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "./GreenWim.sol";
 import "./APIVerify.sol";
-import "./APICredsRefresh.sol";
+import "./APICreditRefresh.sol";
 import "./GWToken.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -15,12 +15,6 @@ contract Registry {
     APIVerify public apiVerify;
     GWToken public gwToken;
     IERC20 public usdtToken;
-
-    constructor(address _usdtAddress) {
-        apiVerify = new APIVerify(address(this));
-        gwToken = new GWToken();
-        usdtToken = IERC20(_usdtAddress);
-    }
 
     struct Order {
         address seller;
@@ -51,54 +45,55 @@ contract Registry {
     }
 
     Order[] public sellArray;
-    Bid[] public bidsArray;
     Lease[] public leaseArray;
+    Bid[] public bidsArray;
     GreenWim[] public contracts;
 
     mapping(address => uint) public balances;
     mapping(address => uint) public collateralBalances;
-    mapping(address => uint) public userAddressToContractId;
-    mapping (address => bool) public hasDeployed;
+    mapping (address => uint) public hostAddressToContractId;
 
-    event LeaseCreated(
-        address indexed lessor,
-        uint leaseId,
-        uint noOfGWTokens,
-        uint collateral
-    );
+    event LeaseCreated(address indexed lessor, uint leaseId, uint noOfGWTokens, uint collateral);
     event LeaseTaken(address indexed lessee, uint leaseId);
-    event LeaseEnded(address indexed lessee, uint leaseId);
+    event LeaseEnded(address indexed lessee, uint leaseId, uint refundAmount, uint extraAmount);
 
-
-
-    uint public credsMarketPrice;
-
-    function addCredStation(string[] calldata payloadCode) public {
-        apiVerify.callVerifier(payloadCode);
+    constructor(address _usdtAddress) {
+        apiVerify = new APIVerify();
+        gwToken = new GWToken();
+        usdtToken = IERC20(_usdtAddress);
     }
 
-    function fallBackCredStationAdded(address _caller, string memory _result) private {
-        require(hasDeployed[msg.sender] != true);
-        if (keccak256(abi.encodePacked(_result)) == keccak256(abi.encodePacked("true"))) {
-            GreenWim t = new GreenWim();
-            contracts.push(t);
-            userAddressToContractId[_caller] = contracts.length - 1;
-            hasDeployed[msg.sender] = true;
-        }
+    uint public credsMarketPrice;
+    
+
+    
+    function updateGWTokenBalance(address _walletAdd ,uint _newValue) public {
+        // additional cheks to be implemented 
+        balances[_walletAdd] = _newValue;
+
+
+    }
+
+
+    function addCredStation(string memory _code) public {
+        apiVerify.callVerifier(_code);
+    }
+
+    function fallBackCredStationAdded() private {
+        GreenWim t = new GreenWim();
+        contracts.push(t);
     }
 
     function createSellOrder(uint _sellPrice, uint _noOfGWTokens) public {
         require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
-        sellArray.push(
-            Order({
-                seller: msg.sender,
-                owner: msg.sender,
-                orderId: sellArray.length,
-                sellPrice: _sellPrice,
-                saleFulfilled: false,
-                noOfGWTokens: _noOfGWTokens
-            })
-        );
+        sellArray.push(Order({
+            seller: msg.sender,
+            owner: msg.sender,
+            orderId: sellArray.length,
+            sellPrice: _sellPrice,
+            saleFulfilled: false,
+            noOfGWTokens: _noOfGWTokens
+        }));
         balances[msg.sender] -= _noOfGWTokens;
     }
 
@@ -114,45 +109,36 @@ contract Registry {
         credsMarketPrice = order.sellPrice;
     }
 
-    function createLeaseOrder(
-        uint _leasePrice,
-        uint _noOfGWTokens,
-        uint _collateral,
-        uint256 _duration
-    ) public {
+    function createLeaseOrder(uint _leasePrice, uint _noOfGWTokens, uint _collateral, uint256 _duration) public {
+        // duration to be implemented
         require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
+        require(usdtToken.transferFrom(msg.sender, address(this), _collateral), "Collateral transfer failed");
         uint leaseId = leaseArray.length;
-        leaseArray.push(
-            Lease({
-                lessor: msg.sender,
-                lessee: address(0),
-                leaseId: leaseId,
-                leasePrice: _leasePrice,
-                noOfGWTokens: _noOfGWTokens,
-                collateral: _collateral,
-                leaseActive: false,
-                startTime: 0,
-                endTime: 0
-            })
-        );
+        leaseArray.push(Lease({
+            lessor: msg.sender,
+            lessee: address(0),
+            leaseId: leaseId,
+            leasePrice: _leasePrice,
+            noOfGWTokens: _noOfGWTokens,
+            collateral: _collateral,
+            leaseActive: false,
+            startTime: 0,
+            endTime: 0
+        }));
+        collateralBalances[address(this)] += _collateral; // Store collateral in contract
         balances[msg.sender] -= _noOfGWTokens;
         emit LeaseCreated(msg.sender, leaseId, _noOfGWTokens, _collateral);
     }
 
     function takeOnLease(uint _leaseId, uint _collateralAmount) public {
         Lease storage lease = leaseArray[_leaseId];
-        require(
-            _collateralAmount >= lease.collateral,
-            "Insufficient collateral"
-        );
+        require(_collateralAmount >= lease.collateral, "Collateral already transferred at lease creation");
         require(!lease.leaseActive, "Lease already active");
 
-        usdtToken.transferFrom(msg.sender, address(this), _collateralAmount);
-        collateralBalances[msg.sender] += _collateralAmount;
         lease.lessee = msg.sender;
         lease.leaseActive = true;
         lease.startTime = block.timestamp;
-        //  lease endTime based on the duration specified during lease creation
+        // Lease endTime based on the duration specified during lease creation
         emit LeaseTaken(msg.sender, _leaseId);
     }
 
@@ -164,9 +150,11 @@ contract Registry {
 
         lease.leaseActive = false;
         balances[msg.sender] -= lease.noOfGWTokens;
-        uint collateral = collateralBalances[msg.sender];
-        collateralBalances[msg.sender] = 0;
-        usdtToken.transfer(msg.sender, collateral);
-        emit LeaseEnded(msg.sender, _leaseId);
+        uint collateral = lease.collateral;
+        uint extraPayment = collateral * 2 / 100; // Calculate 2% of the original collateral
+        uint totalRefund = collateral + extraPayment;
+        require(usdtToken.transferFrom(msg.sender, lease.lessor, extraPayment), "Extra payment transfer failed");
+        require(usdtToken.transfer(msg.sender, collateral), "Collateral refund failed");
+        emit LeaseEnded(msg.sender, _leaseId, collateral, extraPayment);
     }
 }

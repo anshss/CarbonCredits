@@ -1,4 +1,4 @@
-"use client";
+
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from "./providers";
@@ -6,7 +6,7 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+ const metadata = {
     title: "DeSci",
     description: "we trying",
 };
