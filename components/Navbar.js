@@ -53,7 +53,7 @@ export default function NavBar() {
             <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-wrap items-center md:text-base text-1xl md:justify-center justify-items-start">
               <Link
                 class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-                href="/collateral"
+                href="/lease"
               >
                 Sale
               </Link>
@@ -65,14 +65,14 @@ export default function NavBar() {
               </Link>
               <Link
                 class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-                href="/dao"
+                href="/borrow"
               >
                Borrow
               </Link>
   
               <Link
                 class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-                href="/dashboard"
+                href="/tokens"
               >
                 Buy GW Token
               </Link>
