@@ -5,9 +5,7 @@ import { useState } from "react";
 
 
 export default function NavBar() {
-    const [navbarOpen, setNavbarOpen] = useState(false);
-  const [flyer, setFlyer] = useState(false);
-  const [flyerTwo, setFlyerTwo] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
 
     return (
         <header class="fixed top-0 w-full clearNav z-50">
@@ -20,29 +18,7 @@ export default function NavBar() {
               CarbonCredits
             </Link>
   
-            <button
-              className="text-white pb-4 cursor-pointer leading-none px-3 py-1 md:hidden outline-none focus:outline-none content-end ml-auto"
-              type="button"
-              aria-label="button"
-              onClick={() => setNavbarOpen(!navbarOpen)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-menu"
-              >
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </button>
+           
           </div>
           <div
             className={
@@ -52,30 +28,18 @@ export default function NavBar() {
           >
             <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-wrap items-center md:text-base text-1xl md:justify-center justify-items-start">
               <Link
-                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl hover:text-l font-semibold tr04"
                 href="/lease"
               >
                 Sale
               </Link>
               <Link
-                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl hover:text-l font-semibold tr04"
                 href="/lending"
               >
                 Lending
               </Link>
-              <Link
-                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-                href="/borrow"
-              >
-               Borrow
-              </Link>
-  
-              <Link
-                class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-                href="/tokens"
-              >
-                Buy GW Token
-              </Link>
+              
             </div>
             <button className="border-2 border-white p-2 px-3 rounded-full">connect</button>
           </div>
