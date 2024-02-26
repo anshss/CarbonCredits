@@ -8,8 +8,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // }
 
 contract Registry {
-    //APIVerify public apiVerify;
-    // GWToken public gwToken;
     IERC20 public usdtToken;
 
     struct Order {
@@ -22,19 +20,21 @@ contract Registry {
         bool isLease;
         uint leaseFee;
         uint leaseDuration;
-        bool saleFulfilled;
-        bool leaseFulfilled;
+        bool fulfilled;
         uint noOfGWTokens;
+        uint createdAt;
     }
 
+    string[] verifiedSensors = [
+        "973b98d4ef3aac8c991d5d027837c3c6767ec05ebe20e5c49c03d8dde588de88",
+        "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4"
+    ];
+
     Order[] public orderArray;
-    // Lease[] public leaseArray;
-    // Bid[] public bidsArray;
-    // GreenWim[] public contracts;
+
+    uint256 public LatestTimestamp;
 
     mapping(address => uint) public balances;
-    // mapping(address => uint) public collateralBalances;
-    // mapping (address => uint) public hostAddressToContractId;
 
     event LeaseCreated(
         address indexed lessor,
@@ -58,7 +58,16 @@ contract Registry {
 
     uint public credsMarketPrice;
 
-    function updateGWTokenBalance(address _walletAdd, uint _newValue) public {
+    function updateGWTokenBalance(
+        string memory _code,
+        address _walletAdd,
+        uint _newValue
+    ) public {
+        // to update time in cintract and end leases
+        require(checkVerifiedSensors(_code));
+
+        updateTime();
+        checkExpiredLeases();
         // additional cheks to be implemented
         balances[_walletAdd] = _newValue;
     }
@@ -73,6 +82,9 @@ contract Registry {
     // }
 
     function createSellOrder(uint _sellPrice, uint _noOfGWTokens) public {
+        // to update time in cintract and end leases
+        updateTime();
+        checkExpiredLeases();
         require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
         orderArray.push(
             Order({
@@ -85,21 +97,24 @@ contract Registry {
                 isLease: false,
                 leaseFee: 0,
                 leaseDuration: 0,
-                saleFulfilled: false,
-                leaseFulfilled: false,
-                noOfGWTokens: _noOfGWTokens
+                fulfilled: false,
+                noOfGWTokens: _noOfGWTokens,
+                createdAt: block.timestamp
             })
         );
         balances[msg.sender] -= _noOfGWTokens;
     }
 
     function createBuyOrder(uint _orderId) public payable {
+        // to update time in cintract and end leases
+        updateTime();
+        checkExpiredLeases();
         Order storage order = orderArray[_orderId];
         require(msg.value >= order.sellPrice, "Insufficient value sent");
-        require(!order.saleFulfilled, "Order already fulfilled");
+        require(!order.fulfilled, "Order already fulfilled");
 
         order.owner = msg.sender;
-        order.saleFulfilled = true;
+        order.fulfilled = true;
         balances[msg.sender] += order.noOfGWTokens;
         payable(order.seller).transfer(msg.value);
         credsMarketPrice = order.sellPrice;
@@ -108,10 +123,12 @@ contract Registry {
     function createLeaseOrder(
         uint _leasePrice,
         uint _noOfGWTokens,
-        uint _collateral,
         uint256 _duration
     ) public {
-        // duration to be implemented
+        // to update time in cintract and end leases
+        updateTime();
+        checkExpiredLeases();
+
         require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
         //require(usdtToken.transferFrom(msg.sender, address(this), _collateral), "Collateral transfer failed");
 
@@ -126,9 +143,9 @@ contract Registry {
                 isLease: true,
                 leaseFee: _leasePrice,
                 leaseDuration: _duration,
-                saleFulfilled: false,
-                leaseFulfilled: false,
-                noOfGWTokens: _noOfGWTokens
+                fulfilled: false,
+                noOfGWTokens: _noOfGWTokens,
+                createdAt: block.timestamp
             })
         );
         balances[msg.sender] -= _noOfGWTokens;
@@ -136,24 +153,58 @@ contract Registry {
     }
 
     function takeOnLease(uint _orderId) public payable {
+        // to update time in cintract and end leases
+        updateTime();
+        checkExpiredLeases();
         Order storage order = orderArray[_orderId];
         require(msg.value >= order.leaseFee, "Insufficient value sent");
-        require(!order.leaseFulfilled, "Lease already fulfilled");
+        require(!order.fulfilled, "Lease already fulfilled");
 
         order.owner = msg.sender;
-        order.leaseFulfilled = true;
+        order.fulfilled = true;
+        order.createdAt = block.timestamp;
         balances[msg.sender] += order.noOfGWTokens;
         payable(order.seller).transfer(msg.value);
-        credsMarketPrice = order.sellPrice;
     }
 
-    function endLease(uint _orderId) public payable {
+    function endLease(uint _orderId) public payable onlyAdmin {
         Order storage order = orderArray[_orderId];
-        // require(msg.value >= order.leaseFee, "Insufficient value sent");
-        require(!order.leaseFulfilled, "Lease already fulfilled");
-
+        balances[order.owner] -= order.noOfGWTokens;
         order.owner = order.seller;
-        order.leaseFulfilled = true;
-        balances[msg.sender] -= order.noOfGWTokens;
+    }
+
+    modifier onlyAdmin() {
+        _;
+    }
+
+    function updateTime() public {
+        LatestTimestamp = block.timestamp;
+    }
+
+    function checkExpiredLeases() public {
+        updateTime();
+        for (uint256 index = 0; index < orderArray.length; index++) {
+            if (
+                orderArray[index].createdAt + orderArray[index].leaseDuration >
+                LatestTimestamp
+            ) {
+                endLease(index);
+            }
+        }
+    }
+
+    bool public isVerified;
+
+    function checkVerifiedSensors(string memory _code) public returns (bool) {
+        for (uint256 index = 0; index < verifiedSensors.length; index++) {
+            if (
+                keccak256(abi.encodePacked(verifiedSensors[index])) ==
+                keccak256(abi.encodePacked(_code))
+            ) {
+                isVerified = true;
+                return true;
+            }
+        }
+        return false;
     }
 }
