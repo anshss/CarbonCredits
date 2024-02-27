@@ -1,8 +1,8 @@
+import Navbar from "../../components/Navbar"
 export default function Main(){
     return(
         <div class=" pb-5  w-full flex flex-row m-10 -ml-3">
-            
-           
+            <Navbar />
             <div class="  m-5 p-10">
                <label for="default-input" class="block mb-2 font-roboto font-medium text-gray-900 dark:text-white    mt-20 ml-20 text-2xl">Sales</label>
 
