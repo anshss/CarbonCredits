@@ -1,12 +1,21 @@
 
-import Image from 'next/image'
 import Main from '../components/Main'
 import NavBar from '../components/Navbar'
-export default function Home() {
+
+function Page() {
   return (
-    <div>
-      <NavBar />
-      <Main />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        padding: 12,
+      }}
+    >
+      
+      <NavBar></NavBar>
+      <Main></Main>
     </div>
-  )
+  );
 }
+
+export default Page;
