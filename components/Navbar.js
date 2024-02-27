@@ -50,15 +50,15 @@ export default function NavBar() {
             (navbarOpen ? " flex" : " hidden")
           }
         >
-          <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-wrap items-center md:text-base text-1xl md:justify-center justify-items-start">
+          <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-nowrap items-center md:text-base text-1xl md:justify-center justify-items-start">
             <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
               href="/lease"
             >
               Sale
             </Link>
             <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
               href="/lending"
             >
               Lending
@@ -66,7 +66,8 @@ export default function NavBar() {
             
           </div>
           {/* <button className="border-2 border-white p-2 px-3 rounded-full">connect</button> */}
-          <ConnectButton />
+          <div className=" -mr-20"><ConnectButton /></div>
+          
         </div>
       </div>
     </header>
