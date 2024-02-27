@@ -63,19 +63,7 @@ export default function NavBar() {
             >
               Lending
             </Link>
-            <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-              href="/borrow"
-            >
-              Borrow
-            </Link>
-
-            <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-              href="/tokens"
-            >
-              Buy GW Token
-            </Link>
+            
           </div>
           {/* <button className="border-2 border-white p-2 px-3 rounded-full">connect</button> */}
           <ConnectButton />
