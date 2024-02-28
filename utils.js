@@ -1,4 +1,5 @@
 "use client";
+import { sign } from "crypto";
 // import web3modal from "web3modal";
 // import { ethers } from "ethers";
 // import {
@@ -10,6 +11,33 @@
 // import { create } from '@web3-storage/w3up-client'
 
 // Creating Instances
+
+import { ethers } from "ethers";
+
+let signer = null;
+
+let provider;
+if (window.ethereum == null) {
+  console.log("MetaMask not installed; using read-only defaults");
+  provider = ethers.getDefaultProvider();
+} else {
+  provider = new ethers.BrowserProvider(window.ethereum);
+
+  signer = await provider.getSigner();
+}
+
+export const cinsole = () => {
+  console.log("cinsole");
+  console.log(provider);
+  console.log(signer);
+};
+
+export async function getWallet() {
+  console.log("getwallet");
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  const signer = provider.getSigner();
+}
 
 export async function getUserAddress() {
   const accounts = await window.ethereum.request({
