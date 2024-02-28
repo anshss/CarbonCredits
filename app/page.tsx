@@ -1,21 +1,15 @@
-import Main from "../components/Main";
-import NavBar from "../components/Navbar";
-import { cinsole, getWallet } from "../utils";
+"use client";
+import Landing from "./landing/page";
+//import { cinsole } from "../utils";
 
 function Page() {
-  cinsole();
+//  cinsole();
+  console.log("hi");
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        padding: 12,
-      }}
-    >
-      <NavBar></NavBar>
-      <Main></Main>
-    </div>
+    <>
+      <Landing />
+    </>
   );
 }
 

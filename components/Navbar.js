@@ -14,8 +14,8 @@ export default function NavBar() {
       <div class="max-w-5xl mx-auto flex flex-wrap p-5 flex-col md:flex-row">
         <div className="flex flex-row items-center justify-between p-3 md:p-1">
           <Link
-            href="/"
-            class="flex text-3xl text-white font-medium mb-4 md:mb-0 "
+            href="/landing"
+            class="flex text-3xl text-white font-medium mb-4 md:mb-0 -ml-20"
           >
             CarbonCredits
           </Link>
@@ -50,35 +50,24 @@ export default function NavBar() {
             (navbarOpen ? " flex" : " hidden")
           }
         >
-          <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-wrap items-center md:text-base text-1xl md:justify-center justify-items-start">
+          <div class="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-nowrap items-center md:text-base text-1xl md:justify-center justify-items-start">
             <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
               href="/lease"
             >
               Sale
             </Link>
             <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
+              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
               href="/lending"
             >
               Lending
             </Link>
-            <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-              href="/borrow"
-            >
-              Borrow
-            </Link>
-
-            <Link
-              class="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white hover:text-lg font-semibold tr04"
-              href="/tokens"
-            >
-              Buy GW Token
-            </Link>
+            
           </div>
           {/* <button className="border-2 border-white p-2 px-3 rounded-full">connect</button> */}
-          <ConnectButton />
+          <div className=" -mr-20"><ConnectButton /></div>
+          
         </div>
       </div>
     </header>
