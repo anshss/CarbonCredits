@@ -58,11 +58,21 @@ export async function counterTest() {
   console.log(tx);
 }
 
-export async function createSellOrder(_noOfGWTokens = 1, _sellPrice = 100) {
+export async function createSellOrder(
+  _noOfGWTokens = 1,
+  _sellPrice = 100,
+  _leasePrice = 10,
+  _duration = 1
+) {
   const abi = registryAbi;
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.createSellOrder(_sellPrice, _noOfGWTokens);
+  const tx = await contract.listOrder(
+    _sellPrice,
+    _noOfGWTokens,
+    _leasePrice,
+    _duration
+  );
   console.log(tx);
 }
 
@@ -79,16 +89,15 @@ export async function createLeaseOrder(_sellPrice, _noOfGWTokens, _duration) {
 }
 
 export async function getGwTokenBalance() {
-  connectWithMetamask();
+  await connectWithMetamask();
+  console.log(signer.address);
   const abi = registryAbi;
   const address = registryAddress;
   console.log(address);
   console.log(abi);
   console.log(provider);
   const contract = new ethers.Contract(address, abi, provider);
-  const tx = await contract.balances(
-    "0x063145aa5f16FAD2C8179c1E0Ff1a1a39D95AF9d"
-  );
+  const tx = await contract.balances(signer.address);
   //await tx.wait();
   console.log(tx.toString());
   return tx.toString();

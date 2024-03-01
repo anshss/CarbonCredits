@@ -1,5 +1,57 @@
 export const registryAbi = [
   {
+    inputs: [],
+    name: "checkExpiredLeases",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_code",
+        type: "string",
+      },
+    ],
+    name: "checkVerifiedSensors",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_orderId",
+        type: "uint256",
+      },
+    ],
+    name: "createBuyOrder",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_orderId",
+        type: "uint256",
+      },
+    ],
+    name: "endLease",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -92,16 +144,69 @@ export const registryAbi = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "LatestTimestamp",
-    outputs: [
+    inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "_sellPrice",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_noOfGWTokens",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_leasePrice",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_duration",
         type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "listOrder",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_orderId",
+        type: "uint256",
+      },
+    ],
+    name: "takeOnLease",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_walletAdd",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_newValue",
+        type: "uint256",
+      },
+    ],
+    name: "updateGWTokenBalance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "updateTime",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -125,86 +230,6 @@ export const registryAbi = [
   },
   {
     inputs: [],
-    name: "checkExpiredLeases",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_code",
-        type: "string",
-      },
-    ],
-    name: "checkVerifiedSensors",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_orderId",
-        type: "uint256",
-      },
-    ],
-    name: "createBuyOrder",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_leasePrice",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_noOfGWTokens",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_duration",
-        type: "uint256",
-      },
-    ],
-    name: "createLeaseOrder",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_sellPrice",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_noOfGWTokens",
-        type: "uint256",
-      },
-    ],
-    name: "createSellOrder",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "credsMarketPrice",
     outputs: [
       {
@@ -217,19 +242,6 @@ export const registryAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_orderId",
-        type: "uint256",
-      },
-    ],
-    name: "endLease",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "isVerified",
     outputs: [
@@ -237,6 +249,19 @@ export const registryAbi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "LatestTimestamp",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -330,44 +355,6 @@ export const registryAbi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_orderId",
-        type: "uint256",
-      },
-    ],
-    name: "takeOnLease",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_walletAdd",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_newValue",
-        type: "uint256",
-      },
-    ],
-    name: "updateGWTokenBalance",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "updateTime",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "usdtToken",
     outputs: [
@@ -381,4 +368,4 @@ export const registryAbi = [
     type: "function",
   },
 ];
-export const registryAddress = "0x9078f1E46E143eFa5Bf72b51f1259762f7F990A7";
+export const registryAddress = "0x1d71d02c8Cf4993922844c9BA5e004f545DD8c67";

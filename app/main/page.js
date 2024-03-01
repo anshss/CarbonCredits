@@ -6,7 +6,8 @@ export default function Main() {
   const [gwBalance, setGwBalance] = useState("Fetching ...");
   const [noOfTokens, setNoOfTokens] = useState(0);
   const [price, setPrice] = useState(0);
-  const [lendDuration, setLendDuration] = useState(0);
+  const [optionPrice, setOptionPrice] = useState(0);
+  const [optionDuration, setOptionDuration] = useState(0);
   async function handleGwBalanceUpdate() {
     console.log("Fetching GW token balance...");
     try {
@@ -18,9 +19,11 @@ export default function Main() {
     }
   }
   async function handleSubmit() {
-    createSellOrder(noOfTokens, price);
+    createSellOrder(noOfTokens, price, optionPrice, optionDuration);
     setPrice(0);
     setNoOfTokens(0);
+    setOptionPrice(0);
+    setOptionDuration(0);
   }
   function handleNoOfTokenUpdate(noOfTokens) {
     console.log("incoming token", noOfTokens);
@@ -30,9 +33,13 @@ export default function Main() {
     console.log("incoming token", price);
     setPrice(price);
   }
-  function handlelendDurationUpdate(duration) {
+  function handleOptionPriceUpdate(price) {
+    console.log("incoming token", price);
+    setOptionPrice(price);
+  }
+  function handleOptionDurationUpdate(duration) {
     console.log("incoming token", duration);
-    setLendDuration(duration);
+    setOptionDuration(duration);
   }
   useEffect(() => {
     handleGwBalanceUpdate();
@@ -61,21 +68,45 @@ export default function Main() {
         </label>
 
         <div class="mt-0 ml-20 border-2 p-4 w-full flex flex-row rounded-md ">
+          <label htmlFor="">no of tokens</label>
+          <br />
           <input
             type="number"
             id="noOfTokensField"
+            placeholder="No of tokens"
             value={noOfTokens}
             onChange={(e) => {
               handleNoOfTokenUpdate(e.target.value);
             }}
             class="bg-gray-50 border border-gray-300 text-gray-900    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
           />
+          <label htmlFor="">Total price</label>
           <input
             type="number"
             id="priceField"
             value={price}
             onChange={(e) => {
               handlepriceUpdate(e.target.value);
+            }}
+            class="mx-2 bg-gray-50 border border-gray-300 text-gray-900    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+          />
+          <label htmlFor="">Price for optio</label>
+          <input
+            type="number"
+            id="optionPriceField"
+            value={optionPrice}
+            onChange={(e) => {
+              handleOptionPriceUpdate(e.target.value);
+            }}
+            class="mx-2 bg-gray-50 border border-gray-300 text-gray-900    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+          />
+          <label htmlFor="">Duration for option</label>
+          <input
+            type="number"
+            id="optionDurationField"
+            value={optionDuration}
+            onChange={(e) => {
+              handleOptionDurationUpdate(e.target.value);
             }}
             class="mx-2 bg-gray-50 border border-gray-300 text-gray-900    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
           />
