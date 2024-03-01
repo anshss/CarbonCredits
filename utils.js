@@ -1,15 +1,61 @@
 "use client";
-// import web3modal from "web3modal";
-// import { ethers } from "ethers";
-// import {
-//     addressRegistry,
-//     abiRegistry,
-//     abiBW,
-// } from "./config";
-// import axios from "axios";
-// import { create } from '@web3-storage/w3up-client'
 
-// Creating Instances
+import { ethers } from "ethers";
+
+let signer = null;
+
+let provider;
+
+async function connectWithMetamask() {
+  if (window.ethereum == null) {
+    console.log("MetaMask not installed; using read-only defaults");
+    provider = ethers.getDefaultProvider();
+  } else {
+    provider = await new ethers.BrowserProvider(window.ethereum);
+
+    signer = await provider.getSigner();
+  }
+}
+connectWithMetamask();
+
+export async function counterTest() {
+  connectWithMetamask();
+  console.log(provider);
+  console.log(signer);
+  const abi = [
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "_newNumber",
+          type: "uint256",
+        },
+      ],
+      name: "updateNumber",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "number",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+  const address = "0x3ae16B796f9e3aCa9Ae7E830679D53658d6Eb63d";
+  const contract = new ethers.Contract(address, abi, signer);
+  const tx = await contract.updateNumber(1);
+
+  console.log(tx);
+}
 
 export async function getUserAddress() {
   const accounts = await window.ethereum.request({
