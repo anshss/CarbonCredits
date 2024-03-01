@@ -14,7 +14,7 @@ export default function Landing(){
         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CarbonCredits</span>
         </a>
         <div className="  ">
-        <Link href="/main">
+        <Link href="/sale">
         <button type="button" className="text-white  focus:outline-none focus:ring-blue-300 font-medium rounded-lg   text-md  py-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 p-12">Launch App</button> 
         </Link>  
          

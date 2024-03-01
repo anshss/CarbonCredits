@@ -19,24 +19,27 @@ export default function Main() {
     handleGwBalanceUpdate();
   }, []);
   return (
-    <div class=" pb-5  w-full flex flex-row m-10 -ml-3">
+    <div className=" pb-5  w-full flex flex-row m-10 -ml-3">
       <Navbar />
-      <button
+      
+
+      <div className="w-full m-5 p-10">
+        <div className="text-center text-3xl">
+          You have generated <span className="text-green-400">{gwBalance}</span>{" "}
+          GW tokens{" "}
+        </div>
+
+        <button
+        className="border rounded-xl  text-2xl px-8 hover:bg-slate-50 hover:text-black"
         onClick={() => {
           handleGwBalanceUpdate();
         }}
       >
-        click
+        Click
       </button>
-
-      <div class="  m-5 p-10">
-        <div>
-          You have generated <span className="text-green-400">{gwBalance}</span>{" "}
-          GW tokens{" "}
-        </div>
       </div>
 
-      <div class=" m-5 p-10"></div>
+      <div className=" m-5 p-10"></div>
     </div>
   );
 }
