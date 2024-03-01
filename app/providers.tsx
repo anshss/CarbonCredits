@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   RainbowKitProvider,
+  darkTheme,
   getDefaultWallets,
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
@@ -19,6 +20,7 @@ import {
   bscTestnet,
   optimism,
   polygon,
+  polygonMumbai,
   sepolia,
   zora,
 } from "wagmi/chains";
@@ -50,7 +52,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider modalSize="compact" >{children}</RainbowKitProvider>
+        <RainbowKitProvider modalSize="compact"
+        theme={darkTheme({
+          ...darkTheme.accentColors.green,
+        })} >{children}</RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
