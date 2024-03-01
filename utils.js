@@ -1,6 +1,7 @@
 "use client";
 
 import { ethers } from "ethers";
+import { registryAbi, registryAddress } from "./contractRefs";
 
 let signer = null;
 
@@ -52,9 +53,45 @@ export async function counterTest() {
   ];
   const address = "0x3ae16B796f9e3aCa9Ae7E830679D53658d6Eb63d";
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.updateNumber(1);
+  const tx = await contract.updateNumber(10);
 
   console.log(tx);
+}
+
+export async function createSellOrder(_noOfGWTokens = 1, _sellPrice = 100) {
+  const abi = registryAbi;
+  const address = registryAddress;
+  const contract = new ethers.Contract(address, abi, signer);
+  const tx = await contract.createSellOrder(_sellPrice, _noOfGWTokens);
+  console.log(tx);
+}
+
+export async function createLeaseOrder(_sellPrice, _noOfGWTokens, _duration) {
+  const abi = registryAbi;
+  const address = registryAddress;
+  const contract = new ethers.Contract(address, abi, signer);
+  const tx = await contract.createSellOrder(
+    _sellPrice,
+    _noOfGWTokens,
+    _duration
+  );
+  console.log(tx);
+}
+
+export async function getGwTokenBalance() {
+  connectWithMetamask();
+  const abi = registryAbi;
+  const address = registryAddress;
+  console.log(address);
+  console.log(abi);
+  console.log(provider);
+  const contract = new ethers.Contract(address, abi, provider);
+  const tx = await contract.balances(
+    "0x063145aa5f16FAD2C8179c1E0Ff1a1a39D95AF9d"
+  );
+  //await tx.wait();
+  console.log(tx.toString());
+  return tx.toString();
 }
 
 export async function getUserAddress() {
@@ -108,7 +145,7 @@ export async function addCredStation(_code) {
   console.log("Added Cred Station");
 }
 
-export async function createSellOrder(_sellPrice, _noOfGWTokens) {
+export async function createSellOrderx(_sellPrice, _noOfGWTokens) {
   const contract = await getRegistryContract(true);
   const tx = await contract.createSellOrder(_sellPrice, _noOfGWTokens);
   await tx.wait();
@@ -122,7 +159,7 @@ export async function createBuyOrder(_orderId) {
   console.log("Created Buy Order");
 }
 
-export async function createLeaseOrder(
+export async function createLeaseOrderx(
   _leasePrice,
   _noOfGWTokens,
   _collateral,
