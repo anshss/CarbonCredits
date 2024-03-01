@@ -6,6 +6,7 @@ export default function Main() {
   const [gwBalance, setGwBalance] = useState("Fetching ...");
   const [noOfTokens, setNoOfTokens] = useState(0);
   const [price, setPrice] = useState(0);
+  const [isOption, setIsOption] = useState(false);
   const [optionPrice, setOptionPrice] = useState(0);
   const [optionDuration, setOptionDuration] = useState(0);
   async function handleGwBalanceUpdate() {
@@ -18,6 +19,7 @@ export default function Main() {
       console.error("Failed to fetch GW token balance:", error);
     }
   }
+
   async function handleSubmit() {
     createSellOrder(noOfTokens, price, optionPrice, optionDuration);
     setPrice(0);

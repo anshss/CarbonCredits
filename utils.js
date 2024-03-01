@@ -59,10 +59,10 @@ export async function counterTest() {
 }
 
 export async function createSellOrder(
-  _noOfGWTokens = 1,
-  _sellPrice = 100,
-  _leasePrice = 10,
-  _duration = 1
+  _noOfGWTokens = 0,
+  _sellPrice = 0,
+  _leasePrice = 0,
+  _duration = 0
 ) {
   const abi = registryAbi;
   const address = registryAddress;
