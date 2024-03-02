@@ -15,7 +15,7 @@ export default function NavBar() {
             href="/landing"
             className="flex text-3xl text-white font-medium mb-4 md:mb-0 -ml-20"
           >
-            CarbonCredits
+            GreenWim
           </Link>
 
           <button

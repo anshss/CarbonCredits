@@ -103,6 +103,24 @@ export async function getGwTokenBalance() {
   return tx.toString();
 }
 
+export async function getOrdersArray() {
+  await connectWithMetamask();
+  console.log(signer.address);
+  const abi = registryAbi;
+  const address = registryAddress;
+  console.log(address);
+  console.log(abi);
+  console.log(provider);
+  const contract = new ethers.Contract(address, abi, provider);
+  const arrayLength = await contract.returnOrdersArrayLength();
+  //await tx.wait();
+  console.log(Number(arrayLength));
+  for (let i = 0; i <= Number(arrayLength); i++) {
+    console.log(i);
+  }
+  return arrayLength;
+}
+
 export async function getUserAddress() {
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",

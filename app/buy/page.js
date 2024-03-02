@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import { createSellOrder, counterTest, getGwTokenBalance } from "../../utils";
+import {
+  getOrdersArray,
+  createSellOrder,
+  counterTest,
+  getGwTokenBalance,
+} from "../../utils";
 export default function Main() {
   const [gwBalance, setGwBalance] = useState("Fetching ...");
 
@@ -32,7 +37,7 @@ export default function Main() {
         <button
         className="border rounded-xl  text-2xl px-8 hover:bg-slate-50 hover:text-black"
         onClick={() => {
-          handleGwBalanceUpdate();
+          console.log(getOrdersArray());
         }}
       >
         Click

@@ -356,6 +356,19 @@ export const registryAbi = [
   },
   {
     inputs: [],
+    name: "returnOrdersArrayLength",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "usdtToken",
     outputs: [
       {
@@ -368,4 +381,4 @@ export const registryAbi = [
     type: "function",
   },
 ];
-export const registryAddress = "0x1d71d02c8Cf4993922844c9BA5e004f545DD8c67";
+export const registryAddress = "0x58C374DB09ED521606B8126C7A130F817d903990";
