@@ -26,7 +26,6 @@ export default function Main() {
   return (
     <div className=" pb-5  w-full flex flex-row m-10 -ml-3">
       <Navbar />
-      
 
       <div className="w-full m-5 p-10">
         <div className="text-center text-3xl">
@@ -35,13 +34,13 @@ export default function Main() {
         </div>
 
         <button
-        className="border rounded-xl  text-2xl px-8 hover:bg-slate-50 hover:text-black"
-        onClick={() => {
-          console.log(getOrdersArray());
-        }}
-      >
-        Click
-      </button>
+          className="border rounded-xl  text-2xl px-8 hover:bg-slate-50 hover:text-black"
+          onClick={async () => {
+            console.log(await getOrdersArray());
+          }}
+        >
+          Click
+        </button>
       </div>
 
       <div className=" m-5 p-10"></div>

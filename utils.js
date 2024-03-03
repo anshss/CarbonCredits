@@ -113,12 +113,17 @@ export async function getOrdersArray() {
   console.log(provider);
   const contract = new ethers.Contract(address, abi, provider);
   const arrayLength = await contract.returnOrdersArrayLength();
+  const ordersArray = [];
   //await tx.wait();
-  console.log(Number(arrayLength));
-  for (let i = 0; i <= Number(arrayLength); i++) {
-    console.log(i);
+  //console.log(Number(arrayLength));
+  for (let i = 0; i <= Number(arrayLength) - 1; i++) {
+    //console.log(i);
+    const currOrder = await contract.orderArray(i);
+    //console.log(currOrder);
+    ordersArray.push(currOrder);
+    //console.log(ordersArray);
   }
-  return arrayLength;
+  return ordersArray;
 }
 
 export async function getUserAddress() {

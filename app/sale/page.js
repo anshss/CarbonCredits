@@ -79,78 +79,98 @@ export default function Main() {
           </label>
 
           <div className="mt-0 border-2 p-8 w-full mb-8 rounded-md ">
-            <div className="flex flex-col" >
-            <label htmlFor="" className="text-xl mt-5">No of Tokens</label>
-            <br />
-            <input
-            type="number"
-            id="noOfTokensField"
-            placeholder="No of tokens"
-            value={noOfTokens}
-            onChange={(e) => {
-              handleNoOfTokenUpdate(e.target.value);
-            }}
-            className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-            />
-            <label htmlFor="" className="text-xl mt-5">Total price</label>
-            <br />
-            <input
-            type="number"
-            id="priceField"
-            value={price}
-            onChange={(e) => {
-              handlepriceUpdate(e.target.value);
-            }}
-            className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-            />
+            <div className="flex flex-col">
+              <label htmlFor="" className="text-xl mt-5">
+                No of Tokens
+              </label>
+              <br />
+              <input
+                type="number"
+                id="noOfTokensField"
+                placeholder="No of tokens"
+                value={noOfTokens}
+                onChange={(e) => {
+                  handleNoOfTokenUpdate(e.target.value);
+                }}
+                className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+              />
+              <label htmlFor="" className="text-xl mt-5">
+                Total price
+              </label>
+              <br />
+              <input
+                type="number"
+                id="priceField"
+                value={price}
+                onChange={(e) => {
+                  handlepriceUpdate(e.target.value);
+                }}
+                className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+              />
 
-            <br/>
-            <label htmlFor="toggle" className="inline-flex border-inline items-center cursor-pointer">
-            <input type="checkbox" value="" className="sr-only peer" 
-            id="toggle"
-            checked={toggle}
-            onChange={handleToggle}/>
-            <div className="relative w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-            <span className="ms-3 text-lg font-medium text-gray-900 dark:text-gray-300">Options</span>
-            </label>
-            <br/>
-            
-            <div className="w-full flex flex-col" style={{ display: toggle ? 'block' : 'none' }}>
-            <label htmlFor="" className="text-xl mt-5">Price for option</label>
-            <br />
-            <input
-            type="number"
-            id="optionPriceField"
-            value={optionPrice}
-            onChange={(e) => {
-              handleOptionPriceUpdate(e.target.value);
-            }}
-            className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-            />
-            <label htmlFor="" className="text-xl mt-5">Duration for option</label>
-            <br />
-            <input
-            type="number"
-            id="optionDurationField"
-            value={optionDuration}
-            onChange={(e) => {
-              handleOptionDurationUpdate(e.target.value);
-            }}
-            className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-            />
+              <br />
+              <label
+                htmlFor="toggle"
+                className="inline-flex border-inline items-center cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  value=""
+                  className="sr-only peer"
+                  id="toggle"
+                  checked={toggle}
+                  onChange={handleToggle}
+                />
+                <div className="relative w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-lg font-medium text-gray-900 dark:text-gray-300">
+                  Offer as option
+                </span>
+              </label>
+              <br />
+
+              <div
+                className="w-full flex flex-col"
+                style={{ display: toggle ? "block" : "none" }}
+              >
+                <label htmlFor="" className="text-xl mt-5">
+                  Price for option
+                </label>
+                <br />
+                <input
+                  type="number"
+                  id="optionPriceField"
+                  value={optionPrice}
+                  onChange={(e) => {
+                    handleOptionPriceUpdate(e.target.value);
+                  }}
+                  className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+                />
+                <label htmlFor="" className="text-xl mt-5">
+                  Duration for option
+                </label>
+                <br />
+                <input
+                  type="number"
+                  id="optionDurationField"
+                  value={optionDuration}
+                  onChange={(e) => {
+                    handleOptionDurationUpdate(e.target.value);
+                  }}
+                  className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
+                />
+              </div>
+              <button
+                onClick={() => {
+                  handleSubmit();
+                }}
+                className="ml-24 border-2 w-1/2 mt-4 p-2 rounded-full hover:bg-white hover:border-black hover:text-black font-roboto text-2xl"
+              >
+                sale
+              </button>
             </div>
-            <button
-              onClick={() => {
-                handleSubmit();
-            }}
-            className="ml-24 border-2 w-1/2 mt-4 p-2 rounded-full hover:bg-white hover:border-black hover:text-black font-roboto text-2xl"
-            >
-            sale
-            </button>
           </div>
         </div>
       </div>
-    </div>
 
       <div className=" m-5 p-10"></div>
     </div>
