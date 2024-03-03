@@ -5,6 +5,8 @@ import {
   getOrdersArray,
   createSellOrder,
   counterTest,
+  buyOrder,
+  buyOption,
   getGwTokenBalance,
 } from "../../utils";
 export default function Main() {
@@ -36,7 +38,7 @@ export default function Main() {
         <button
           className="border rounded-xl  text-2xl px-8 hover:bg-slate-50 hover:text-black"
           onClick={async () => {
-            console.log(await getOrdersArray());
+            console.log(await buyOrder(1));
           }}
         >
           Click

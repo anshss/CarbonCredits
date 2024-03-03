@@ -76,6 +76,22 @@ export async function createSellOrder(
   console.log(tx);
 }
 
+export async function buyOrder(orderId) {
+  const abi = registryAbi;
+  const address = registryAddress;
+  const contract = new ethers.Contract(address, abi, signer);
+  const tx = await contract.createBuyOrder(orderId);
+  console.log(tx);
+}
+
+export async function buyOption(orderId) {
+  const abi = registryAbi;
+  const address = registryAddress;
+  const contract = new ethers.Contract(address, abi, signer);
+  const tx = await contract.takeOnLease(orderId);
+  console.log(tx);
+}
+
 export async function createLeaseOrder(_sellPrice, _noOfGWTokens, _duration) {
   const abi = registryAbi;
   const address = registryAddress;
