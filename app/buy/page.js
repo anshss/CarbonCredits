@@ -37,7 +37,14 @@ export default function Main() {
           <button
           className="border rounded-xl ml-10 text-2xl px-8 hover:bg-slate-50 hover:text-black"
           onClick={async () => {
-            console.log(await getOrdersArray());
+            const orderArr = await getOrdersArray();
+            console.log(orderArr.length);
+            for (let i = 0; i < orderArr.length; i++) {
+              console.log(orderArr[i][0]);
+              for (let j = 0; j < orderArr[i].length; j++) {
+                console.log(orderArr[i][j]);
+              }
+            }
           }}
         >
           Click
