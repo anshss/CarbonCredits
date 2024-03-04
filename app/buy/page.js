@@ -59,7 +59,7 @@ export default function Main() {
 
   return (
     <div className="w-full h-max-screen ">
-      <Navbar />
+      <NavBar />
 
       <div className="text-center text-3xl pt-40">
         You have generated <span className="text-green-400">{gwBalance}</span>{" "}

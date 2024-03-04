@@ -7,47 +7,32 @@ const card = ({ array }) => {
   return (
     <div className="flex flex-row pb-10">
       <div class="w-full bg-white border-2 border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-300 mt-14 ml-80 mr-80 backdrop-blur-lg pt-5">
-
         <span className="ml-5 mt-5 text-xl">Seller</span>
-        <div className="border rounded-full m-2 ml-5 text-2xl w-3/4 px-3">{array[0]}</div> 
-        
+        <div className="border rounded-full m-2 ml-5 text-2xl w-3/4 px-3">
+          {array[0]}
+        </div>
+
         <span className="ml-5 text-xl">Price</span>
-        <div className="border rounded-full m-2 ml-5 w-4/12 text-2xl px-3">{Number(array[3])}</div>
-        <span className="ml-5 text-xl">Option Duration</span>
-        <div className="border rounded-full m-2 ml-5 w-1/3 text-2xl px-3">
-          {Number(array[8])}
-        </div>
-        <span className="ml-5 text-xl">Option Price</span>
-        <div className="border rounded-full m-2 mb-5 ml-5 w-1/3 text-2xl px-3">
-          {Number(array[7])}
-        </div>
-        <span className="ml-5 text-xl">GW Tokens</span>
-        <div className="border rounded-full m-2 mb-5 ml-5 w-1/3 text-2xl px-3">
-    <div>
-      <div class="w-full max-w-sm bg-white border-2 border-gray-200 rounded-xl shadow dark:bg-gray-800 dark:border-gray-300 mt-14 ml-12 pt-5">
-        <span className="ml-5 mt-5">Seller</span>
-        <div className="border m-2 ml-5 text-xl px-3">{array[0]}</div>
-        <span className="ml-5">Price</span>
-        <div className="border m-2 ml-5 text-xl px-3">
-          {(Number(array[3] / BigInt("1000000000000000"))/1000)}
+        <div className="border rounded-full m-2 ml-5 w-4/12 text-2xl px-3">
+          {Number(array[3] / BigInt("1000000000000000")) / 1000}
         </div>
         {Number(array[8]) > 0 ? (
           <>
-            <span className="ml-5">Option Duration</span>
-            <div className="border m-2 ml-5 w-3/5 text-xl px-3">
+            <span className="ml-5 text-xl">Option Duration</span>
+            <div className="border rounded-full m-2 ml-5 w-1/3 text-2xl px-3">
               {Number(array[8])}
             </div>
-            <span className="ml-5">Option Price</span>
-            <div className="border m-2 mb-5 ml-5 w-3/5 text-xl px-3">
-              {(Number(array[7] / BigInt("1000000000000000"))/1000)}
+            <span className="ml-5 text-xl">Option Price</span>
+            <div className="border rounded-full m-2 mb-5 ml-5 w-1/3 text-2xl px-3">
+              {Number(array[7] / BigInt("1000000000000000")) / 1000}
             </div>
           </>
         ) : (
           <></>
         )}
 
-        <span className="ml-5">GW Tokens</span>
-        <div className="border m-2 mb-5 ml-5 w-3/5 text-xl px-3">
+        <span className="ml-5 text-xl">GW Tokens</span>
+        <div className="border rounded-full m-2 mb-5 ml-5 w-1/3 text-2xl px-3">
           {Number(array[10])}
         </div>
 

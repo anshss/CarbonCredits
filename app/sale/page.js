@@ -55,7 +55,7 @@ export default function Main() {
 
   return (
     <div className=" h-max-screenscreen w-full flex flex-row m-10 -ml-8">
-      <Navbar />
+      <NavBar />
       {/* <button
         onClick={() => {
           handleGwBalanceUpdate();
@@ -64,11 +64,11 @@ export default function Main() {
         click
       </button> */}
 
-        <div className=" mt-20 ml-28  w-full">
-          <div className="text-3xl text-center border-1 rounded-md content-center font-roboto font-semibold m-5 ml-38 p-2 ">
-            You have generated{" "}
-            <span className="text-green-400">{gwBalance}</span> GW tokens{" "}
-          </div>
+      <div className=" mt-20 ml-28  w-full">
+        <div className="text-3xl text-center border-1 rounded-md content-center font-roboto font-semibold m-5 ml-38 p-2 ">
+          You have generated <span className="text-green-400">{gwBalance}</span>{" "}
+          GW tokens{" "}
+        </div>
 
         <div className=" rounded-lg w-1/3 ">
           <label
@@ -226,6 +226,6 @@ export default function Main() {
 
         <div className=" m-5 p-10"></div>
       </div>
-    </>
+    </div>
   );
 }
