@@ -51,6 +51,13 @@ export default function NavBar() {
           <div className="md:ml-auto md:mr-auto font-4 pt-1 md:pl-14 pl-1 flex flex-nowrap items-center md:text-base text-1xl md:justify-center justify-items-start">
             <Link
               className="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
+              href="/addGenSensor"
+            >
+              Add Sensor
+            </Link>
+
+            <Link
+              className="mr-12 md:ml-18 ml-0 cursor-pointer text-gray-300 hover:text-white text-2xl font-semibold tr04"
               href="/sale"
             >
               Sale

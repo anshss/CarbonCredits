@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
+import NavBar from "@/components/Navbar";
 import {
   getOrdersArray,
   addGenStation,
@@ -64,14 +64,7 @@ export default function Main() {
       <div className="text-center text-3xl pt-40">
         You have generated <span className="text-green-400">{gwBalance}</span>{" "}
         GW tokens{" "}
-        <button
-          className="border rounded-xl ml-10 text-2xl px-8 hover:bg-slate-50 hover:text-black"
-          onClick={() => {
-            addGenStation("hehe");
-          }}
-        >
-          Click
-        </button>
+       
       </div>
 
       <div className="text-center text-3xl pt-10">
@@ -79,9 +72,9 @@ export default function Main() {
         <span className="text-green-400">{marketPrice}</span> per Token{" "}
       </div>
       {ordersArray.map((data) => {
-        return <div className="">
-          <Card array={data}></Card>
-        </div>
+        if (!data[9]) {
+          return <Card array={data}></Card>;
+        }
       })}
     </div>
   );

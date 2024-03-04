@@ -1,6 +1,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from "./providers";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
 
 function RootLayout({ children }: { children: React.ReactNode }) {

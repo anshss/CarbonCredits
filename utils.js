@@ -1,7 +1,8 @@
 "use client";
 
-import { ethers } from "ethers";
+import { ethers, parseEther } from "ethers";
 import { registryAbi, registryAddress } from "./contractRefs";
+import { getSHA256Hash } from "boring-webcrypto-sha256";
 
 let signer = null;
 
@@ -70,26 +71,28 @@ export async function createSellOrder(
   const tx = await contract.listOrder(
     ethers.parseEther(_sellPrice),
     _noOfGWTokens,
-    _leasePrice,
+    ethers.parseEther(_leasePrice),
     _duration
   );
   console.log(tx);
 }
 
-export async function buyOrder(orderId, value = "200") {
-  const parsedValue = ethers.parseEther(value);
+export async function buyOrder(orderId, value) {
+  console.log(typeof value);
   const abi = registryAbi;
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.createBuyOrder(orderId, { value: parsedValue });
+  const tx = await contract.createBuyOrder(orderId, {
+    value: value,
+  });
   console.log(tx);
 }
 
-export async function buyOption(orderId) {
+export async function buyOption(orderId, value) {
   const abi = registryAbi;
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.takeOnOption(orderId);
+  const tx = await contract.takeOnOption(orderId, { value: value });
   console.log(tx);
 }
 
@@ -98,7 +101,7 @@ export async function createLeaseOrder(_sellPrice, _noOfGWTokens, _duration) {
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
   const tx = await contract.createSellOrder(
-    _sellPrice,
+    ethers.parseEther(_sellPrice),
     _noOfGWTokens,
     _duration
   );
@@ -127,7 +130,7 @@ export async function getMarketPrice() {
   const contract = new ethers.Contract(address, abi, provider);
   const tx = await contract.credsMarketPrice();
 
-  return tx.toString();
+  return ((Number(tx/10000000000000000n))/1000).toString();
 }
 
 export async function getOrdersArray() {
@@ -154,9 +157,11 @@ export async function getOrdersArray() {
 }
 
 export async function addGenStation(_code) {
+  const encodedCode = await getSHA256Hash(_code);
+  console.log(encodedCode);
   const abi = registryAbi;
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.addGenStation(_code);
+  const tx = await contract.addGenStation(encodedCode);
   console.log(tx);
 }

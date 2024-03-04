@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Link from 'next/link'
 export default function Landing(){
- 
+
     return(
     <div className="w-full h-max-screen">
         <nav className="bg-white/60 dark:bg-zinc-700/60 fixed w-full z-20 top-0 start-0 border-gray-200 dark:border-gray-600 mt-5 backdrop-blur-md">
