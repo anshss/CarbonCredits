@@ -7,11 +7,13 @@ import {
   getDefaultWallets,
   getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
+
 import {
   argentWallet,
   trustWallet,
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
+
 import {
   arbitrum,
   base,
@@ -24,8 +26,11 @@ import {
   sepolia,
   zora,
 } from "wagmi/chains";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
+
+import { ChakraProvider } from '@chakra-ui/react'
 
 const { wallets } = getDefaultWallets();
 
@@ -53,9 +58,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider modalSize="compact"
-        theme={darkTheme({
-          ...darkTheme.accentColors.orange,
-        })} >{children}</RainbowKitProvider>
+          theme={darkTheme({...darkTheme.accentColors.orange,})} >
+        
+            {children}
+          
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

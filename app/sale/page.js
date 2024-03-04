@@ -54,7 +54,7 @@ export default function Main() {
   };
 
   return (
-    <div className=" h-screen w-full flex flex-row m-10 -ml-8">
+    <div className=" h-max-screenscreen w-full flex flex-row m-10 -ml-8">
       <Navbar />
       {/* <button
         onClick={() => {
@@ -70,7 +70,7 @@ export default function Main() {
           GW tokens{" "}
         </div>
 
-        <div className=" rounded-lg w-1/3">
+        <div className=" rounded-lg w-1/3 ">
           <label
             for="default-input"
             className="block mb-2 font-roboto font-medium text-gray-900 dark:text-white mt-2 ml-0 text-3xl"
@@ -78,8 +78,8 @@ export default function Main() {
             List Sales
           </label>
 
-          <div className="mt-0 border-2 p-8 w-full mb-8 rounded-md ">
-            <div className="flex flex-col">
+          <div className="mt-0 border-2 p-8 w-full mb-8 bg rounded-lg ">
+            <div className="flex flex-col ">
               <label htmlFor="" className="text-xl mt-5">
                 No of Tokens
               </label>

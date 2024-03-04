@@ -58,7 +58,7 @@ export default function Main() {
   }, [ordersArray]);
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-max-screen ">
       <Navbar />
 
       <div className="text-center text-3xl pt-40">
@@ -74,12 +74,14 @@ export default function Main() {
         </button>
       </div>
 
-      <div className="text-center text-3xl pt-40">
+      <div className="text-center text-3xl pt-10">
         Current Market Price{" "}
         <span className="text-green-400">{marketPrice}</span> per Token{" "}
       </div>
       {ordersArray.map((data) => {
-        return <Card array={data}></Card>;
+        return <div className="">
+          <Card array={data}></Card>
+        </div>
       })}
     </div>
   );
