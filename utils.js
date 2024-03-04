@@ -68,7 +68,7 @@ export async function createSellOrder(
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
   const tx = await contract.listOrder(
-    _sellPrice,
+    ethers.parseEther(_sellPrice),
     _noOfGWTokens,
     _leasePrice,
     _duration
@@ -76,11 +76,12 @@ export async function createSellOrder(
   console.log(tx);
 }
 
-export async function buyOrder(orderId) {
+export async function buyOrder(orderId, value = "200") {
+  const parsedValue = ethers.parseEther(value);
   const abi = registryAbi;
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
-  const tx = await contract.createBuyOrder(orderId, { value: 200 });
+  const tx = await contract.createBuyOrder(orderId, { value: parsedValue });
   console.log(tx);
 }
 
