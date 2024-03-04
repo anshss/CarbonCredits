@@ -106,27 +106,27 @@ export async function createLeaseOrder(_sellPrice, _noOfGWTokens, _duration) {
 
 export async function getGwTokenBalance() {
   await connectWithMetamask();
-  console.log(signer.address);
+ // console.log(signer.address);
   const abi = registryAbi;
   const address = registryAddress;
-  console.log(address);
-  console.log(abi);
-  console.log(provider);
+ // console.log(address);
+ // console.log(abi);
+ // console.log(provider);
   const contract = new ethers.Contract(address, abi, provider);
   const tx = await contract.balances(signer.address);
   //await tx.wait();
-  console.log(tx.toString());
+  //console.log(tx.toString());
   return tx.toString();
 }
 
 export async function getOrdersArray() {
   await connectWithMetamask();
-  console.log(signer.address);
+  //console.log(signer.address);
   const abi = registryAbi;
   const address = registryAddress;
-  console.log(address);
-  console.log(abi);
-  console.log(provider);
+  //console.log(address);
+  //console.log(abi);
+  //console.log(provider);
   const contract = new ethers.Contract(address, abi, provider);
   const arrayLength = await contract.returnOrdersArrayLength();
   const ordersArray = [];
