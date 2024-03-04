@@ -33,12 +33,14 @@ const card = ({ array }) => {
               Buy
             </button>
 
-            <button
-              onClick={() => buyOption(Number(array[2]))}
-              className="text-white bg-yellow-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-8 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-blue-800 ml-20"
-            >
-              Buy OPtion
-            </button>
+            {(Number(array[8])>0)?
+              (<button
+                onClick={() => buyOption(Number(array[2]))}
+                className="text-white bg-yellow-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-8 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-blue-800 ml-20"
+              >
+                Buy OPtion
+              </button>):<></>
+            }
           </div>
         </div>
       </div>

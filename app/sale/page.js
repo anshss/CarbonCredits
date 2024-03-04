@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import { createSellOrder, counterTest, getGwTokenBalance } from "../../utils";
+import { createSellOrder, addGenStation, getGwTokenBalance } from "../../utils";
 export default function Main() {
   const [gwBalance, setGwBalance] = useState("Fetching ...");
   const [noOfTokens, setNoOfTokens] = useState(0);

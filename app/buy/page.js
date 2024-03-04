@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import {
   getOrdersArray,
-  createSellOrder,
-  counterTest,
-  buyOrder,
-  buyOption,
+  addGenStation,
+  getMarketPrice,
   getGwTokenBalance,
 } from "../../utils";
 import Card from "../../components/Card";
 export default function Main() {
   const [gwBalance, setGwBalance] = useState("Fetching ...");
+  const [marketPrice, setMarketPrice] = useState("Fetching");
   const [ordersArray, setOrdersArray] = useState([]);
 
   async function handleGwBalanceUpdate() {
@@ -42,10 +41,20 @@ export default function Main() {
     //   }
     // }
   }
+  async function updateMarketPrice() {
+    try {
+      const updatedPrice = await getMarketPrice();
+      console.log("Fetched Market Price:", updatedPrice);
+      setMarketPrice(updatedPrice);
+    } catch (error) {
+      console.error("Failed to fetch GW token balance:", error);
+    }
+  }
 
   useEffect(() => {
     handleGwBalanceUpdate();
     updateArray();
+    updateMarketPrice();
   }, [ordersArray]);
 
   return (
@@ -58,11 +67,16 @@ export default function Main() {
         <button
           className="border rounded-xl ml-10 text-2xl px-8 hover:bg-slate-50 hover:text-black"
           onClick={() => {
-            updateArray();
+            addGenStation("hehe");
           }}
         >
           Click
         </button>
+      </div>
+
+      <div className="text-center text-3xl pt-40">
+        Current Market Price{" "}
+        <span className="text-green-400">{marketPrice}</span> per Token{" "}
       </div>
       {ordersArray.map((data) => {
         return <Card array={data}></Card>;

@@ -1,7 +1,20 @@
 export const registryAbi = [
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_code",
+        type: "string",
+      },
+    ],
+    name: "addGenStation",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
-    name: "checkExpiredLeases",
+    name: "checkExpiredOptions",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -46,102 +59,10 @@ export const registryAbi = [
         type: "uint256",
       },
     ],
-    name: "endLease",
+    name: "endOption",
     outputs: [],
     stateMutability: "payable",
     type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_usdtAddress",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "lessor",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "leaseId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "noOfGWTokens",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "collateral",
-        type: "uint256",
-      },
-    ],
-    name: "LeaseCreated",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "lessee",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "leaseId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "refundAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "extraAmount",
-        type: "uint256",
-      },
-    ],
-    name: "LeaseEnded",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "lessee",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "leaseId",
-        type: "uint256",
-      },
-    ],
-    name: "LeaseTaken",
-    type: "event",
   },
   {
     inputs: [
@@ -157,7 +78,7 @@ export const registryAbi = [
       },
       {
         internalType: "uint256",
-        name: "_leasePrice",
+        name: "_optionPrice",
         type: "uint256",
       },
       {
@@ -172,6 +93,87 @@ export const registryAbi = [
     type: "function",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "lessor",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "optionId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "noOfGWTokens",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "collateral",
+        type: "uint256",
+      },
+    ],
+    name: "optionCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "lessee",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "optionId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "refundAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "extraAmount",
+        type: "uint256",
+      },
+    ],
+    name: "optionEnded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "lessee",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "optionId",
+        type: "uint256",
+      },
+    ],
+    name: "optionTaken",
+    type: "event",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -179,7 +181,7 @@ export const registryAbi = [
         type: "uint256",
       },
     ],
-    name: "takeOnLease",
+    name: "takeOnOption",
     outputs: [],
     stateMutability: "payable",
     type: "function",
@@ -187,9 +189,9 @@ export const registryAbi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_walletAdd",
-        type: "address",
+        internalType: "string",
+        name: "_code",
+        type: "string",
       },
       {
         internalType: "uint256",
@@ -236,6 +238,25 @@ export const registryAbi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    name: "genStationToAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -309,17 +330,17 @@ export const registryAbi = [
       },
       {
         internalType: "bool",
-        name: "isLease",
+        name: "isOption",
         type: "bool",
       },
       {
         internalType: "uint256",
-        name: "leaseFee",
+        name: "optionFee",
         type: "uint256",
       },
       {
         internalType: "uint256",
-        name: "leaseDuration",
+        name: "optionDuration",
         type: "uint256",
       },
       {
@@ -367,18 +388,5 @@ export const registryAbi = [
     stateMutability: "view",
     type: "function",
   },
-  {
-    inputs: [],
-    name: "usdtToken",
-    outputs: [
-      {
-        internalType: "contract IERC20",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
 ];
-export const registryAddress = "0x58C374DB09ED521606B8126C7A130F817d903990";
+export const registryAddress = "0x9Dde0dbD80114F5912eb7A6147253C091E404864";
