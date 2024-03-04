@@ -10,10 +10,12 @@ function addGenSensor() {
   return (
     <>
     <NavBar></NavBar>
-    <div className="mt-96">
-      <label htmlFor="">Enter Secret Code</label>
+    <div className="mt-40 text-center border w-1/2 ml-96 rounded-lg pt-5 pb-5">
+      
+      <label className="text-3xl" htmlFor="">Enter Secret Code</label>
+      <br/>
       <input
-        className="text-black"
+        className="text-black text-lg font-semibold h-8 w-60 mt-10 rounded-md"
         value={code}
         onChange={(e) => {
           setCode(e.target.value);
@@ -21,13 +23,19 @@ function addGenSensor() {
         }}
         type="text"
       />
+      
       <button
+      className="border ml-8 px-5 py-1 text-white font-bold rounded-xl hover:bg-white hover:text-black"
         onClick={() => {
           handleAddSensor();
         }}
       >
         ADD
       </button>
+
+      <p className="text-xl mt-24">" lorem ipsum dolor sit amet, consectetur "</p>
+     
+      
     </div>
     </>
   );
