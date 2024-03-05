@@ -15,7 +15,7 @@ function addGenSensor() {
       <label className="text-3xl" htmlFor="">Enter Secret Code</label>
       <br/>
       <input
-        className="text-black text-lg font-semibold h-8 w-60 mt-10 rounded-md"
+        className="text-black text-2xl font-semibold h-8 w-64 mt-10 rounded-md"
         value={code}
         onChange={(e) => {
           setCode(e.target.value);
