@@ -95,7 +95,7 @@ export default function Main() {
                 className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/8 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
               />
               <label htmlFor="" className="text-xl mt-5">
-                Total price
+                Total price (BNB)
               </label>
               <br />
               <input
@@ -132,34 +132,6 @@ export default function Main() {
                 className="w-full flex flex-col"
                 style={{ display: toggle ? "block" : "none" }}
               >
-                <label htmlFor="" className="text-xl mt-5">
-                  No of Tokens
-                </label>
-                <br />
-                <input
-                  type="number"
-                  id="noOfTokensFields"
-                  placeholder="No. of tokens"
-                  value={noOfTokens}
-                  onChange={(e) => {
-                    handleNoOfTokenUpdate(e.target.value);
-                  }}
-                  className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/5 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-                />
-                <label htmlFor="" className="text-xl mt-5">
-                  Total price
-                </label>
-                <br />
-                <input
-                  type="number"
-                  id="priceFields"
-                  value={price}
-                  onChange={(e) => {
-                    handlepriceUpdate(e.target.value);
-                  }}
-                  className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/5 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
-                />
-
                 <br />
                 <label
                   htmlFor="toggle"
@@ -173,7 +145,6 @@ export default function Main() {
                     checked={toggle}
                     onChange={handleToggle}
                   />
-                  
                 </label>
                 <br />
 
@@ -182,7 +153,7 @@ export default function Main() {
                   style={{ display: toggle ? "block" : "none" }}
                 >
                   <label htmlFor="" className="text-xl mt-5">
-                    Price for option
+                    Price for option (BNB)
                   </label>
                   <br />
                   <input
@@ -195,7 +166,7 @@ export default function Main() {
                     className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/5 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
                   />
                   <label htmlFor="" className="text-xl mt-5">
-                    Duration for option
+                    Duration for option {"(In seconds) "}
                   </label>
                   <br />
                   <input
@@ -208,15 +179,15 @@ export default function Main() {
                     className="mx-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-3/5 p-2.5 dark:bg-gray-700    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500    dark:focus:border-blue-500"
                   />
                 </div>
-                <button
-                  onClick={() => {
-                    handleSubmit();
-                  }}
-                  className="ml-24 border-2 w-1/2 mt-4 p-2 rounded-full hover:bg-white hover:border-black hover:text-black font-roboto font-semibold text-2xl"
-                >
-                  sale
-                </button>
               </div>
+              <button
+                onClick={() => {
+                  handleSubmit();
+                }}
+                className="ml-24 border-2 w-1/2 mt-4 p-2 rounded-full hover:bg-white hover:border-black hover:text-black font-roboto font-semibold text-2xl"
+              >
+                sale
+              </button>
             </div>
           </div>
         </div>

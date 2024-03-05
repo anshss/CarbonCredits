@@ -73,7 +73,7 @@ export default function Main() {
       </div>
       {ordersArray.map((data) => {
         if (!data[9]) {
-          return <Card array={data}></Card>;
+          return <Card key={data[0]} array={data}></Card>;
         }
       })}
     </div>

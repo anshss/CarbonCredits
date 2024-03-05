@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-// interface IAPIVerify {
-//     function callVerifier(string memory _code) external;
-// }
 
 contract Registry {
-    IERC20 public usdtToken;
-
     struct Order {
         address seller;
         address owner;
@@ -17,9 +11,9 @@ contract Registry {
         uint256 sellPrice;
         bool isBuy;
         bool isSale;
-        bool isLease;
-        uint256 leaseFee;
-        uint256 leaseDuration;
+        bool isOption;
+        uint256 optionFee;
+        uint256 optionDuration;
         bool fulfilled;
         uint256 noOfGWTokens;
         uint256 createdAt;
@@ -27,113 +21,82 @@ contract Registry {
 
     string[] verifiedSensors = [
         "973b98d4ef3aac8c991d5d027837c3c6767ec05ebe20e5c49c03d8dde588de88",
-        "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4"
+        "f467ca2dbbe61e928e91d6ff69b5041396d09000785aeb5ea5a8b00482ab4754"
     ];
 
     Order[] public orderArray;
 
     uint256 public LatestTimestamp;
+    uint256 public credsMarketPrice = 10;
 
     mapping(address => uint256) public balances;
+    mapping(string => address) public genStationToAddress;
 
-    event LeaseCreated(
+    event optionCreated(
         address indexed lessor,
-        uint256 leaseId,
+        uint256 optionId,
         uint256 noOfGWTokens,
         uint256 collateral
     );
-    event LeaseTaken(address indexed lessee, uint256 leaseId);
-    event LeaseEnded(
+    event optionTaken(address indexed lessee, uint256 optionId);
+    event optionEnded(
         address indexed lessee,
-        uint256 leaseId,
+        uint256 optionId,
         uint256 refundAmount,
         uint256 extraAmount
     );
 
-    constructor(address _usdtAddress) {
-        // apiVerify = new APIVerify();
-        // gwToken = new GWToken();
-        usdtToken = IERC20(_usdtAddress);
+    function addGenStation(string memory _code) public {
+        genStationToAddress[_code] = msg.sender;
     }
 
-    uint256 public credsMarketPrice;
+    function returnOrdersArrayLength() public view returns (uint256) {
+        uint256 arrLength;
+        arrLength = orderArray.length;
+        return (arrLength);
+    }
 
-    function updateGWTokenBalance(
-        //string memory _code,
-        address _walletAdd,
-        uint256 _newValue
-    ) public {
-        // to update time in cintract and end leases
+    function updateGWTokenBalance(string memory _code, uint256 _newValue)
+        public
+    {
         //require(checkVerifiedSensors(_code));
 
         updateTime();
-        checkExpiredLeases();
+        checkExpiredOptions();
+
         // additional cheks to be implemented
-        balances[_walletAdd] = _newValue;
+        balances[genStationToAddress[_code]] = _newValue;
     }
-
-    // function addCredStation(string memory _code) public {
-    //     apiVerify.callVerifier(_code);
-    // }
-
-    // function fallBackCredStationAdded() private {
-    //     GreenWim t = new GreenWim();
-    //     contracts.push(t);
-    // }
 
     function returnGwBalance() public view returns (uint256) {
         return (balances[msg.sender]);
     }
 
-    // function createSellOrder(uint256 _sellPrice, uint256 _noOfGWTokens) public {
-    //     // to update time in cintract and end leases
-    //     updateTime();
-    //     checkExpiredLeases();
-    //     require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
-    //     orderArray.push(
-    //         Order({
-    //             seller: msg.sender,
-    //             owner: msg.sender,
-    //             orderId: orderArray.length,
-    //             sellPrice: _sellPrice,
-    //             isBuy: false,
-    //             isSale: true,
-    //             isLease: false,
-    //             leaseFee: 0,
-    //             leaseDuration: 0,
-    //             fulfilled: false,
-    //             noOfGWTokens: _noOfGWTokens,
-    //             createdAt: block.timestamp
-    //         })
-    //     );
-    //     balances[msg.sender] -= _noOfGWTokens;
-    // }
-
     function createBuyOrder(uint256 _orderId) public payable {
-        // to update time in cintract and end leases
+        // to update time in cintract and end options
         updateTime();
-        checkExpiredLeases();
+        checkExpiredOptions();
         Order storage order = orderArray[_orderId];
         require(msg.value >= order.sellPrice, "Insufficient value sent");
         require(!order.fulfilled, "Order already fulfilled");
 
         order.owner = msg.sender;
         order.fulfilled = true;
-        order.leaseDuration = 0;
+        order.optionDuration = 0;
         balances[msg.sender] += order.noOfGWTokens;
         payable(order.seller).transfer(msg.value);
-        credsMarketPrice = order.sellPrice;
+        credsMarketPrice = order.sellPrice / order.noOfGWTokens;
     }
 
     function listOrder(
         uint256 _sellPrice,
         uint256 _noOfGWTokens,
-        uint256 _leasePrice,
+        uint256 _optionPrice,
         uint256 _duration
     ) public {
-        // to update time in cintract and end leases
+        // to update time in cintract and end options
         updateTime();
-        checkExpiredLeases();
+        checkExpiredOptions();
 
         require(balances[msg.sender] >= _noOfGWTokens, "Insufficient GWTokens");
         //require(usdtToken.transferFrom(msg.sender, address(this), _collateral), "Collateral transfer failed");
@@ -146,25 +109,25 @@ contract Registry {
                 sellPrice: _sellPrice,
                 isBuy: false,
                 isSale: true,
-                isLease: true,
-                leaseFee: _leasePrice,
-                leaseDuration: _duration,
+                isOption: true,
+                optionFee: _optionPrice,
+                optionDuration: _duration,
                 fulfilled: false,
                 noOfGWTokens: _noOfGWTokens,
                 createdAt: block.timestamp
             })
         );
         balances[msg.sender] -= _noOfGWTokens;
-        // emit LeaseCreated(msg.sender, leaseId, _noOfGWTokens, _collateral);
+        // emit optionCreated(msg.sender, optionId, _noOfGWTokens, _collateral);
     }
 
-    function takeOnLease(uint256 _orderId) public payable {
-        // to update time in cintract and end leases
+    function takeOnOption(uint256 _orderId) public payable {
+        // to update time and end options
         updateTime();
-        checkExpiredLeases();
+        checkExpiredOptions();
         Order storage order = orderArray[_orderId];
-        require(msg.value >= order.leaseFee, "Insufficient value sent");
-        require(!order.fulfilled, "Lease already fulfilled");
+        require(msg.value >= order.optionFee, "Insufficient value sent");
+        require(!order.fulfilled, "option already fulfilled");
 
         order.owner = msg.sender;
         order.fulfilled = true;
@@ -173,7 +136,13 @@ contract Registry {
         payable(order.seller).transfer(msg.value);
     }
 
-    function endLease(uint256 _orderId) public payable onlyAdmin {
+    function redeemTokens(uint256 _value,address _user)public onlyAdmin{
+        // to be called bu authorities that offer some compensation for the amount of tokens redeemed
+        checkExpiredOptions();
+        balances[_user] = balances[_user]-_value;
+    }
+
+    function endOption(uint256 _orderId) public payable onlyAdmin {
         Order storage order = orderArray[_orderId];
         balances[order.owner] -= order.noOfGWTokens;
         order.fulfilled = false;
@@ -181,6 +150,7 @@ contract Registry {
     }
 
     modifier onlyAdmin() {
+        // checks for approved users currently kept empty to simplify testing
         _;
     }
 
@@ -188,16 +158,16 @@ contract Registry {
         LatestTimestamp = block.timestamp;
     }
 
-    function checkExpiredLeases() public {
+    function checkExpiredOptions() public {
         updateTime();
         for (uint256 index = 0; index < orderArray.length; index++) {
-            if (orderArray[index].leaseDuration > 0) {
+            if (orderArray[index].optionDuration > 0) {
                 if (
                     orderArray[index].createdAt +
-                        orderArray[index].leaseDuration >
+                        orderArray[index].optionDuration <
                     LatestTimestamp
                 ) {
-                    endLease(index);
+                    endOption(index);
                 }
             }
         }

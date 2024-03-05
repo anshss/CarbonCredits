@@ -30,7 +30,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider } from "wagmi";
 
-import { ChakraProvider } from '@chakra-ui/react'
+
 
 const { wallets } = getDefaultWallets();
 

@@ -69,9 +69,9 @@ export async function createSellOrder(
   const address = registryAddress;
   const contract = new ethers.Contract(address, abi, signer);
   const tx = await contract.listOrder(
-    ethers.parseEther(_sellPrice),
+    ethers.parseEther(_sellPrice.toString()),
     _noOfGWTokens,
-    ethers.parseEther(_leasePrice),
+    ethers.parseEther(_leasePrice.toString()),
     _duration
   );
   console.log(tx);
@@ -130,7 +130,7 @@ export async function getMarketPrice() {
   const contract = new ethers.Contract(address, abi, provider);
   const tx = await contract.credsMarketPrice();
 
-  return ((Number(tx/10000000000000000n))/1000).toString();
+  return ((Number(tx/1000000000000000n))/1000).toString();
 }
 
 export async function getOrdersArray() {
