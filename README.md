@@ -1,21 +1,3 @@
+Addressing the challenge of renewable energy integration, this project incentivizes individual contributions to the grid, making sustainable energy more accessible and rewarding.
 
-
-## Getting Started
-
-demo : 
-
-To run on local:
-
-clone this repo
-change directory
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
+[Demo Video](https://www.youtube.com/watch?v=ymHxRvn6r40)
